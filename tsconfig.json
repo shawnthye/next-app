@@ -6,8 +6,12 @@
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
     "isolatedModules": true,
-    "jsx": "react-jsx",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "jsx": "preserve",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
@@ -17,6 +21,13 @@
     "strict": true,
     "target": "es5"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
