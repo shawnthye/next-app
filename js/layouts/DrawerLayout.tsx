@@ -29,8 +29,7 @@ const DrawerLayout: React.FC<ReactComponentProps> = ({ children }) => {
           },
         }}
         variant="permanent"
-        anchor="left"
-      >
+        anchor="left">
         <List>
           {NavLinks.map(({ text, route }, index) => (
             <Link href={route} passHref={true} key={index}>

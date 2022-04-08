@@ -31,8 +31,7 @@ export const NextLinkComposed = React.forwardRef<
       scroll={scroll}
       shallow={shallow}
       passHref
-      locale={locale}
-    >
+      locale={locale}>
       <Anchor ref={ref} {...other} />
     </NextLink>
   );
@@ -51,7 +50,7 @@ export type LinkProps = {
 // https://nextjs.org/docs/api-reference/next/link
 const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(
   props,
-  ref
+  ref,
 ) {
   const {
     activeClassName = 'active',

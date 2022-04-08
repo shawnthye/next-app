@@ -30,7 +30,7 @@ export default class NextDocument extends Document {
 
 // `getInitialProps` belongs to `_document` (instead of `_app`),
 // it's compatible with static-site generation (SSG).
-NextDocument.getInitialProps = async (ctx) => {
+NextDocument.getInitialProps = async ctx => {
   // Resolution order
   //
   // On the server:
@@ -72,7 +72,7 @@ NextDocument.getInitialProps = async (ctx) => {
   // This is important. It prevents emotion to render invalid HTML.
   // See https://github.com/mui/material-ui/issues/26561#issuecomment-855286153
   const emotionStyles = extractCriticalToChunks(initialProps.html);
-  const emotionStyleTags = emotionStyles.styles.map((style) => (
+  const emotionStyleTags = emotionStyles.styles.map(style => (
     <style
       data-emotion={`${style.key} ${style.ids.join(' ')}`}
       key={style.key}
