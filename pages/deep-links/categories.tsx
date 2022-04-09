@@ -9,8 +9,7 @@ import {
 } from '@mui/material';
 import { NextPage } from 'next/types';
 import React from 'react';
-import { Url } from 'url';
-import Table from '../../js/@core/elements/table';
+import Table from '../../js/@core/elements/Table';
 
 const DEFAULT_URL =
   'zalora://sg/urlc/product/?categoryId=13327&categoryId=13328&categoryId=13329&categoryId=13330&categoryId=13331&categoryId=13332&categoryId=13290&categoryId=13293&categoryId=13294&categoryId=13295&categoryId=13300&categoryId=13301&categoryId=13302&catalogtype=Main&specialKey=all&special-url=all-products&segment=sports';
