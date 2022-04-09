@@ -169,11 +169,36 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   );
 }
 
-const Table: React.FC = () => {
+type RowsPerPageOption = { value: number; label: string };
+
+type RowsPerPageOptions = Array<number | RowsPerPageOption>;
+
+const DefaultRowsPerPageOptions: RowsPerPageOptions = [10, 25, 50];
+
+const ensureRowsPerPageOptions = (
+  options: RowsPerPageOptions,
+): RowsPerPageOptions => {
+  if (options && options.length) {
+    return options;
+  }
+  return DefaultRowsPerPageOptions;
+};
+
+const Table: React.FC<{
+  rowsPerPageOptions?: RowsPerPageOptions;
+}> = ({ rowsPerPageOptions = DefaultRowsPerPageOptions }) => {
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const safeRowsPerPageOptions = ensureRowsPerPageOptions(rowsPerPageOptions);
+  const [rowsPerPage, setRowsPerPage] = React.useState(() => {
+    const firstPageOption = safeRowsPerPageOptions[0];
+    if ((firstPageOption as RowsPerPageOption).value) {
+      return (firstPageOption as RowsPerPageOption).value;
+    }
+    return firstPageOption as number;
+  });
 
   const handleRequestSort = (
     _: React.MouseEvent<unknown>,
@@ -200,65 +225,60 @@ const Table: React.FC = () => {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 2 }}>
-        <TableContainer>
-          <MuiTable
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-            size={'medium'}>
-            <EnhancedTableHead
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
-            />
-            <TableBody>
-              {/* if you don't need to support IE11, you can replace the `stableSort` call with:
+    <Paper sx={{ width: '100%', mb: 2 }}>
+      <TableContainer>
+        <MuiTable
+          sx={{ minWidth: 750 }}
+          aria-labelledby="tableTitle"
+          size={'medium'}>
+          <EnhancedTableHead
+            order={order}
+            orderBy={orderBy}
+            onRequestSort={handleRequestSort}
+            rowCount={rows.length}
+          />
+          <TableBody>
+            {/* if you don't need to support IE11, you can replace the `stableSort` call with:
               rows.slice().sort(getComparator(order, orderBy)) */}
-              {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const labelId = `enhanced-table-checkbox-${index}`;
+            {stableSort(rows, getComparator(order, orderBy))
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row, index) => {
+                const labelId = `enhanced-table-checkbox-${index}`;
 
-                  return (
-                    <TableRow
-                      hover
-                      tabIndex={-1}
-                      key={row.name}
-                      selected={false}>
-                      <TableCell component="th" id={labelId} scope="row">
-                        {row.name}
-                      </TableCell>
-                      <TableCell align="right">{row.calories}</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: 53 * emptyRows,
-                  }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </MuiTable>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[10, 25, 50]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
-    </Box>
+                return (
+                  <TableRow hover tabIndex={-1} key={row.name} selected={false}>
+                    <TableCell component="th" id={labelId} scope="row">
+                      {row.name}
+                    </TableCell>
+                    <TableCell align="right">{row.calories}</TableCell>
+                    <TableCell align="right">{row.fat}</TableCell>
+                    <TableCell align="right">{row.carbs}</TableCell>
+                    <TableCell align="right">{row.protein}</TableCell>
+                  </TableRow>
+                );
+              })}
+            {emptyRows > 0 && (
+              <TableRow
+                style={{
+                  height: 53 * emptyRows,
+                }}>
+                <TableCell colSpan={6} />
+              </TableRow>
+            )}
+          </TableBody>
+        </MuiTable>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={safeRowsPerPageOptions}
+        component="div"
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        labelRowsPerPage={'Per page'}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+    </Paper>
   );
 };
 

@@ -6,9 +6,7 @@ import {
   ListItem,
   ListItemText,
   ListSubheader,
-  Stack,
-  styled,
-  Typography,
+  styled
 } from '@mui/material';
 import Link from 'next/link';
 import React from 'react';
