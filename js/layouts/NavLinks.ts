@@ -17,11 +17,11 @@ const NavLinks: (NavLink | SectionHead)[] = [
     // icon: InboxOutlined,
   },
   {
-    title: 'Deep links',
+    title: 'Demos',
   },
   {
-    text: 'Categories',
-    route: '/deep-links/categories',
+    text: 'Theme',
+    route: '/theme',
   },
 ];
 
