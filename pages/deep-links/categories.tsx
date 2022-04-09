@@ -39,6 +39,7 @@ const Section: ReactFC<{ sx?: SxProps<Theme> }> = ({ children, sx }) => {
 
   return (
     <Paper
+      variant="outlined"
       sx={{
         ...(sx || {}),
         marginTop: theme.spacing(2),
@@ -58,7 +59,12 @@ const RawUrl: React.FC<UrlProps> = ({ url }) => {
     return null;
   }
 
-  return <Section sx={{ wordBreak: 'break-all' }}>{url?.toString()}</Section>;
+  return (
+    <Section sx={{ wordBreak: 'break-all' }}>
+      <div>{`${url.protocol}${url.pathname}`}</div>
+      <div>{url.search}</div>
+    </Section>
+  );
 };
 
 const CategoryIds: React.FC<UrlProps> = ({ url }) => {
@@ -92,14 +98,13 @@ const Categories: NextPage = () => {
           if (isUrlValid(target.url.value)) {
             setUrl(new URL(target.url.value));
           }
-
-          console.log('submit', target.url.value);
         }}>
         <FormControl fullWidth>
           <TextField
             name="url"
             type={'url'}
             label="Deep link"
+            variant="filled"
             defaultValue={DEFAULT_URL}
           />
         </FormControl>
