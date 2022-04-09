@@ -1,10 +1,10 @@
 import { CacheProvider, EmotionCache, ThemeProvider } from '@emotion/react';
 import { CssBaseline, GlobalStyles } from '@mui/material';
+import { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import Router from 'next/router';
 import nProgress from 'nprogress';
-import { ReactElement } from 'react';
 import createEmotionCache from '../js/@core/createEmotionCache';
 import theme from '../js/@core/theme';
 import DrawerLayout from '../js/layouts/DrawerLayout';
@@ -14,11 +14,12 @@ const clientSideEmotionCache = createEmotionCache();
 
 interface NextAppProps extends AppProps {
   emotionCache?: EmotionCache;
+  Component: NextPage;
 }
 
 nProgress.configure({
   showSpinner: true,
-  parent: 'body',
+  parent: '#main',
   easing: 'ease-out',
   speed: 200,
 });
@@ -39,10 +40,15 @@ const NextApp = ({
   emotionCache = clientSideEmotionCache,
 }: NextAppProps) => {
   // Variables
-  const getLayout = (page: ReactElement) => <DrawerLayout>{page}</DrawerLayout>;
+
+  const getLayout =
+    Component.getLayout || (page => <DrawerLayout>{page}</DrawerLayout>);
+
   return (
     <CacheProvider value={emotionCache}>
       <Head>
+        <title>Next App</title>
+        <meta name="description" content={'Sample Next App base on MUI'} />
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <ThemeProvider theme={theme}>

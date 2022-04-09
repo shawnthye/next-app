@@ -1,21 +1,65 @@
-import { InboxOutlined, InboxRounded } from '@mui/icons-material';
 import {
   Box,
+  Divider,
   Drawer,
   List,
   ListItem,
-  ListItemIcon,
   ListItemText,
+  ListSubheader,
+  Stack,
+  styled,
+  Typography,
 } from '@mui/material';
-import React from 'react';
-// import Link from '../@core/elements/Link';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import Link from 'next/link';
-import NavLinks from './NavLinks';
+import React from 'react';
 import LocaleSelector from './LocaleSelector';
+import NavLinks, { NavLink, SectionHead as NavSectionHead } from './NavLinks';
 
 const drawerWidth = 240;
+
+const Main = styled('main')(({ theme }) => {
+  return {
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
+    minHeight: '100vh',
+    padding: theme.spacing(4),
+  };
+});
+
+type NavItemTypes = NavLink | NavSectionHead;
+
+const NavItem: React.FC<{ item: NavItemTypes }> = ({ item }) => {
+  if ((item as NavSectionHead).title) {
+    const { title } = item as NavSectionHead;
+    return (
+      <>
+        <Divider sx={{ paddingTop: 1, marginBottom: 1 }} />
+        <ListSubheader sx={{ pointerEvents: 'none' }}>{title}</ListSubheader>
+      </>
+    );
+  }
+
+  const { route, text } = item as NavLink;
+
+  return (
+    <Link href={route} passHref={true}>
+      <ListItem button>
+        <ListItemText primary={text} />
+      </ListItem>
+    </Link>
+  );
+};
+
+const ListItems = () => {
+  return (
+    <>
+      {NavLinks.map((item: NavItemTypes, index) => (
+        <NavItem item={item} key={index} />
+      ))}
+    </>
+  );
+};
 
 const DrawerLayout: React.FC<ReactComponentProps> = ({ children }) => {
   return (
@@ -32,17 +76,12 @@ const DrawerLayout: React.FC<ReactComponentProps> = ({ children }) => {
         variant="permanent"
         anchor="left">
         <LocaleSelector />
+        <Divider />
         <List>
-          {NavLinks.map(({ text, route }, index) => (
-            <Link href={route} passHref={true} key={index}>
-              <ListItem button>
-                <ListItemText primary={text} />
-              </ListItem>
-            </Link>
-          ))}
+          <ListItems />
         </List>
       </Drawer>
-      {children}
+      <Main id="main">{children}</Main>
     </Box>
   );
 };

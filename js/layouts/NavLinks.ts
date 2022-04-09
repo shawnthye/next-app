@@ -1,5 +1,8 @@
-import { InboxOutlined, SvgIconComponent } from '@mui/icons-material';
 import { UrlObject } from 'url';
+
+export type SectionHead = {
+  title: string;
+};
 
 export type NavLink = {
   text: String;
@@ -7,15 +10,18 @@ export type NavLink = {
   //   icon: SvgIconComponent;
 };
 
-const NavLinks: NavLink[] = [
+const NavLinks: (NavLink | SectionHead)[] = [
   {
     text: 'Home',
     route: '/',
     // icon: InboxOutlined,
   },
   {
-    text: 'Hello',
-    route: '/hello1',
+    title: 'Deep links',
+  },
+  {
+    text: 'Categories',
+    route: '/deep-links/categories',
   },
 ];
 
