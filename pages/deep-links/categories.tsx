@@ -309,12 +309,4 @@ const Categories: NextPage = () => {
   );
 };
 
-export const getServerSideProps = async () => {
-  return {
-    props: {
-      test: 'asdasd',
-    },
-  };
-};
-
 export default Categories;
