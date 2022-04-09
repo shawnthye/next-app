@@ -13,6 +13,7 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import Link from 'next/link';
 import NavLinks from './NavLinks';
+import LocaleSelector from './LocaleSelector';
 
 const drawerWidth = 240;
 
@@ -30,6 +31,7 @@ const DrawerLayout: React.FC<ReactComponentProps> = ({ children }) => {
         }}
         variant="permanent"
         anchor="left">
+        <LocaleSelector />
         <List>
           {NavLinks.map(({ text, route }, index) => (
             <Link href={route} passHref={true} key={index}>
