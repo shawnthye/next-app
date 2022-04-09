@@ -9,7 +9,6 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import { visuallyHidden } from '@mui/utils';
-import { NextPage } from 'next/types';
 import React from 'react';
 
 interface Data {
@@ -170,7 +169,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   );
 }
 
-const Table: NextPage = () => {
+const Table: React.FC = () => {
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
   const [page, setPage] = React.useState(0);
